@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
-            $table->string('password')->nullable();
+            $table->string('password');
             $table->bigInteger('phone')->nullable();
-            $table->string('location')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('google_id')->nullable();
             $table->integer('points_balance')->default(1000);
             $table->string('profile_image')->nullable();
             $table->integer('otp')->nullable();
