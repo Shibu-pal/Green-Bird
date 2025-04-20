@@ -1,0 +1,13 @@
+/* Profile Picture Styles */
+.profile-picture {
+    width: 100px; /* Set the width of the profile picture */
+    height: 100px; /* Set the height of the profile picture */
+    border-radius: 50%; /* Make it circular */
+    border: 2px solid var(--primary-color); /* Add a border with primary color */
+    object-fit: cover; /* Ensure the image covers the area */
+    transition: transform 0.3s; /* Add a transition for hover effect */
+}
+
+.profile-picture:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
