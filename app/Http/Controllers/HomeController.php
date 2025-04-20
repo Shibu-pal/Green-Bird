@@ -27,49 +27,6 @@ class HomeController extends Controller
         return view('home', compact('items'));
     }
 
-    public function sociallogin($provider) {
-        return Socialite::driver($provider)->redirect();
-    }
-
-    public function authentication($provider){
-        try {
-            $user = Socialite::driver($provider)->user();
-        
-            $existingUser = User::where([
-                ['email', '=', $user->getEmail()],
-                ['google_id', '=', null],
-            ])->first();  // Use first() instead of get()
-        
-            $image = $user->getAvatar();  // Fix: method call
-        
-            $profileImagePath = ($existingUser && $existingUser->profile_image !== null) 
-                ? $existingUser->profile_image 
-                : $image;  // If you want to store: use Storage::put()
-        
-            $users = User::updateOrCreate([
-                'email' => $user->getEmail(),
-            ], [
-                'name' => $user->getName(),
-                $provider.'_id' => $user->getId(),
-                'profile_image' => $profileImagePath
-            ]);
-        
-            Auth::login($users);
-        
-            return redirect()->route('home')
-                ->with('success', 'Welcome, ' . Auth::user()->name . '. You are successfully logged in.');
-        
-        } catch (\Exception $e) {
-            dd($e);  // Good for dev — comment this out on production.
-            return redirect()->route('login')->withErrors('Login Failed, please try again.');
-        }
-        
-        // $user->getId();
-        // $user->getNickname();
-        // $user->getName();
-        // $user->getEmail();
-        // $user->getAvatar();
-    }
 
     public function login(Request $request)
     {
