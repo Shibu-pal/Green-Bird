@@ -9,8 +9,6 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/','index')->name('home');
     Route::get('/logout','logout')->name('logout')->middleware('auth');
     Route::middleware(['guest'])->group(function () {
-        Route::get('/auth/redirect/{provider}','sociallogin')->name('auth.redirect');
-        Route::get('/auth/{provider}/callback','authentication')->name('authcallback');
         Route::view('/sign-in','login')->name('login');
         Route::view('/sign-up','login')->name('register');
         Route::post('/sign-in','login')->name('in');

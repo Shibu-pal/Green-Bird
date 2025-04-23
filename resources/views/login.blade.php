@@ -208,10 +208,10 @@
                         <h2 class="form-title">Sign In to Your Account</h2>
                         
                         <!-- Social Login Buttons -->
-                        <a href="{{ route('auth.redirect','google') }}" class="social-btn btn-google mb-3">
+<!--                         <a href="{{ route('auth.redirect','google') }}" class="social-btn btn-google mb-3">
                             <i class="fab fa-google"></i> Sign in with Google
-                        </a>
-                        {{-- <a href="{{ route('auth.redirect','facebook') }}" class="social-btn btn-facebook mb-3">
+                        </a> -->
+<!--                         {{-- <a href="{{ route('auth.redirect','facebook') }}" class="social-btn btn-facebook mb-3">
                             <i class="fab fa-facebook-f"></i> Sign in with Facebook
                         </a> --}}
                         
@@ -230,7 +230,7 @@
                         
                         {{-- <a href="#" class="social-btn btn-discord mb-4">
                             <i class="fab fa-discord"></i> Discord
-                        </a> --}}
+                        </a> --}} -->
                         
                         <div class="divider">
                             <span class="divider-text">OR</span>
