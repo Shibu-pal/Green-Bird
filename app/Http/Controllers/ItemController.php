@@ -49,11 +49,10 @@ class ItemController extends Controller
     }
 
     public function product($id) {
-        $id = Auth::check()?Auth::id():null;
+        $user_id = Auth::check()?Auth::id():null;
         $products = Item::with(['user','item_pics'])->find($id);
-        $items = Item::where('category', $products->category)->where('status', '=', 'Available')->where('id', '!=', $id)->get();
-        $cart_id = Auth::check() ? Auth::id() : null;
-        $cart_count = cart::where('user_id', '=', $cart_id)->count();
+        $items = Item::where('category', $products->category)->where('status', '=', 'Available')->where('user_id', '!=', $user_id)->get();
+        $cart_count = cart::where('user_id', '=', $user_id)->count();
         // return $cart_count;
         // return $products;
         return view('product',compact(['products','items','cart_count']));
