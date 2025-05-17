@@ -15,19 +15,19 @@ services:
         value: pgsql
       - key: DB_HOST
         fromDatabase:
-          name: your-database-name
+          name: dpg-d02acdruibrs73am8hg0-a
           property: host
       - key: DB_PORT
         value: 5432
       - key: DB_DATABASE
         fromDatabase:
-          name: your-database-name
+          name: e2b27fcdf02a8a9965433775839c09da
           property: database
       - key: DB_USERNAME
         fromDatabase:
-          name: your-database-name
+          name: e2b27fcdf02a8a9965433775839c09da_user
           property: user
       - key: DB_PASSWORD
         fromDatabase:
-          name: your-database-name
+          name: rt2pZBhl0C3t2DJqRtdTtyTyQMCbG2Zt
           property: password
