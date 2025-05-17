@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
-echo "Render is running"
-# Set permissions
+
+echo "🚀 Running Render build script"
+
+# Ensure correct permissions
 chmod -R 775 storage bootstrap/cache
 
-# Install dependencies
+# Install PHP dependencies
 composer install --no-dev --optimize-autoloader
 
+# Set up Laravel
+php artisan config:clear
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# Generate app key
-php artisan key:generate
+# Set app key (only needed once or when APP_KEY is not set)
+php artisan key:generate --force
 
-# Run database migrations
+# Run DB migrations
 php artisan migrate --force
 
-echo "running completed"
+echo "✅ Laravel build complete"
