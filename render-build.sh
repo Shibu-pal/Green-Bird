@@ -1,23 +1,22 @@
 #!/usr/bin/env bash
+set -e
 
-echo "🚀 Running Render build script"
-
-# Ensure correct permissions
+echo "🔧 Setting permissions..."
 chmod -R 775 storage bootstrap/cache
 
-# Install PHP dependencies
+echo "📦 Installing PHP dependencies..."
 composer install --no-dev --optimize-autoloader
 
-# Set up Laravel
+echo "⚙️ Running Laravel setup..."
 php artisan config:clear
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# Set app key (only needed once or when APP_KEY is not set)
-php artisan key:generate --force
+echo "🔑 Generating app key (if not set)..."
+php artisan key:generate || true
 
-# Run DB migrations
+echo "🗄️ Running database migrations..."
 php artisan migrate --force
 
-echo "✅ Laravel build complete"
+echo "✅ Build script finished!"
