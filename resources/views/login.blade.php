@@ -204,33 +204,33 @@
                 
                 <div class="tab-content" id="authTabsContent">
                     <!-- Sign In Tab -->
-                    <div class="tab-pane fade show active" id="signin" role="tabpanel">
+                    <div class="tab-pane fade show active" id="signin" role="tabpanel" >
                         <h2 class="form-title">Sign In to Your Account</h2>
                         
                         <!-- Social Login Buttons -->
-<!--                         <a href="{{ route('auth.redirect','google') }}" class="social-btn btn-google mb-3">
+                         <a href="{{ route('auth.redirect','google') }}" class="social-btn btn-google mb-3" style="text-decoration:none">
                             <i class="fab fa-google"></i> Sign in with Google
-                        </a> -->
-<!--                         {{-- <a href="{{ route('auth.redirect','facebook') }}" class="social-btn btn-facebook mb-3">
+                        </a>
+                         <a href=" {{route('auth.redirect','facebook') }}" class="social-btn btn-facebook mb-3" style="text-decoration:none">
                             <i class="fab fa-facebook-f"></i> Sign in with Facebook
-                        </a> --}}
+                        </a>
                         
                         {{-- <div class="row">
-                            <div class="col-md-6"> --}}
-                                {{-- <a href="#" class="social-btn btn-linkedin mb-3">
+                            <div class="col-md-6">
+                                <a href="#" class="social-btn btn-linkedin mb-3">
                                     <i class="fab fa-linkedin-in"></i> LinkedIn
-                                </a> --}}
-                            {{-- </div>
+                                </a>
+                            </div>
                             <div class="col-md-6"> --}}
-                                {{-- <a href="{{ route('auth.redirect','github') }}" class="social-btn btn-github mb-3">
-                                    <i class="fab fa-github"></i> GitHub
-                                </a> --}}
+                                <a href=" {{route('auth.redirect','github') }}" class="social-btn btn-github mb-3" style="text-decoration:none">
+                                    <i class="fab fa-github"></i> Sign in with GitHub
+                                </a>
                             {{-- </div>
                         </div> --}}
                         
                         {{-- <a href="#" class="social-btn btn-discord mb-4">
                             <i class="fab fa-discord"></i> Discord
-                        </a> --}} -->
+                        </a> --}}
                         
                         <div class="divider">
                             <span class="divider-text">OR</span>
@@ -445,10 +445,10 @@
     const signupTab = document.getElementById('signup-tab');
 
     let siteUrl = window.location.href;
-    if (siteUrl == 'http://localhost:8000/sign-in') {
+    if (siteUrl == window.location.origin + '/sign-in') {
         const signinTabBootstrap = new bootstrap.Tab(signinTab);
         signinTabBootstrap.show();
-    } else if (siteUrl == 'http://localhost:8000/sign-up') {
+    } else if (siteUrl == window.location.origin + '/sign-up') {
         const signupTabBootstrap = new bootstrap.Tab(signupTab);
         signupTabBootstrap.show();
     }

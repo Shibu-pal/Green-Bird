@@ -58,12 +58,12 @@ class ItemController extends Controller
         return view('product',compact(['products','items','cart_count']));
     }
 
-    public function category($id) {
+    public function category($item) {
         $id = Auth::check()?Auth::id():null;
-        $items = Item::with(['user','item_pics'])->where('category','=',$id)->where('status', '=', 'Available')->where('id', '!=', $id)->paginate(20);
+        $items = Item::with(['user','item_pics'])->where('category','=',$item)->where('status', '=', 'Available')->where('id', '!=', $id)->paginate(20);
         
         // return $items;
-        return view('home',compact('items'));
+        return view('home',compact('items','item'));
     }
 
     public function add_cart($id) {

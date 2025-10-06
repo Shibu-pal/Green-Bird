@@ -250,14 +250,46 @@
 
 
         <div class="scrolling-wrapper d-flex flex-nowrap overflow-auto">
-            <div class="items mx-1"><a class="btn btn-outline-primary" href="{{ route('category','Electronics') }}">Electronics</a></div>
-            <div class="items mx-1"><a class="btn btn-outline-primary" href="{{ route('category','Furniture') }}">Furniture</a></div>
-            <div class="items mx-1"><a class="btn btn-outline-primary" href="{{ route('category','Clothing') }}">Clothing</a></div>
-            <div class="items mx-1"><a class="btn btn-outline-primary" href="{{ route('category','Books') }}">Books</a></div>
-            <div class="items mx-1"><a class="btn btn-outline-primary" href="{{ route('category','Home & Garden') }}">Home & Garden</a></div>
-            <div class="items mx-1"><a class="btn btn-outline-primary" href="{{ route('category','Sports & Outdoors') }}">Sports & Outdoors</a></div>
-            <div class="items mx-1"><a class="btn btn-outline-primary" href="{{ route('category','Toys & Games') }}">Toys & Games</a></div>
-            <div class="items mx-1"><a class="btn btn-outline-primary" href="{{ route('category','Other') }}">Other</a></div>
+            <div class="items mx-1"><a class="btn @if (isset($item) && $item == 'Electronics')
+                btn-primary
+            @else
+                btn-outline-primary
+            @endif" href="{{ route('category','Electronics') }}">Electronics</a></div>
+            <div class="items mx-1"><a class="btn @if (isset($item) && $item == 'Clothing')
+                btn-primary
+            @else
+                btn-outline-primary
+            @endif" href="{{ route('category','Clothing') }}">Clothing</a></div>
+            <div class="items mx-1"><a class="btn @if (isset($item) && $item == 'Furniture')
+                btn-primary
+            @else
+                btn-outline-primary
+            @endif" href="{{ route('category','Furniture') }}">Furniture</a></div>
+            <div class="items mx-1"><a class="btn @if (isset($item) && $item == 'Books')
+                btn-primary
+            @else
+                btn-outline-primary
+            @endif" href="{{ route('category','Books') }}">Books</a></div>
+            <div class="items mx-1"><a class="btn @if (isset($item) && $item == 'Home & Garden')
+                btn-primary
+            @else
+                btn-outline-primary
+            @endif" href="{{ route('category','Home & Garden') }}">Home & Garden</a></div>
+            <div class="items mx-1"><a class="btn @if (isset($item) && $item == 'Sports & Outdoors')
+                btn-primary
+            @else
+                btn-outline-primary
+            @endif" href="{{ route('category','Sports & Outdoors') }}">Sports & Outdoors</a></div>
+            <div class="items mx-1"><a class="btn @if (isset($item) && $item == 'Toys & Games')
+                btn-primary
+            @else
+                btn-outline-primary
+            @endif" href="{{ route('category','Toys & Games') }}">Toys & Games</a></div>
+            <div class="items mx-1"><a class="btn @if (isset($item) && $item == 'Other')
+                btn-primary
+            @else
+                btn-outline-primary
+            @endif" href="{{ route('category','Other') }}">Other</a></div>
         </div>
     </div>
 
@@ -301,103 +333,54 @@
         <div class="row">
             <div class="col-md-3">
                 <select class="form-select" id="category-filter">
-                    <option selected>All Categories</option>
-                    <option>Furniture</option>
-                    <option>Electronics</option>
-                    <option>Clothing</option>
-                    <option>Books</option>
-                    <option>Kitchenware</option>
-                    <option>Other</option>
+                    <option {{ request('category') == '' || !request('category') ? 'selected' : '' }}>All Categories</option>
+                    <option {{ request('category') == 'Furniture' ? 'selected' : '' }}>Furniture</option>
+                    <option {{ request('category') == 'Electronics' ? 'selected' : '' }}>Electronics</option>
+                    <option {{ request('category') == 'Clothing' ? 'selected' : '' }}>Clothing</option>
+                    <option {{ request('category') == 'Books' ? 'selected' : '' }}>Books</option>
+                    <option {{ request('category') == 'Kitchenware' ? 'selected' : '' }}>Kitchenware</option>
+                    <option {{ request('category') == 'Other' ? 'selected' : '' }}>Other</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <select class="form-select" id="condition-filter">
-                    <option selected>Any Condition</option>
-                    <option>New</option>
-                    <option>Used - Like New</option>
-                    <option>Used - Good</option>
-                    <option>Used - Fair</option>
+                    <option {{ request('condition') == '' || !request('condition') ? 'selected' : '' }}>Any Condition</option>
+                    <option {{ request('condition') == 'New' ? 'selected' : '' }}>New</option>
+                    <option {{ request('condition') == 'Used - Like New' ? 'selected' : '' }}>Used - Like New</option>
+                    <option {{ request('condition') == 'Used - Good' ? 'selected' : '' }}>Used - Good</option>
+                    <option {{ request('condition') == 'Used - Fair' ? 'selected' : '' }}>Used - Fair</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <select class="form-select" id="location-filter">
-                    <option selected>Any Location</option>
-                    <option>Within 5 km</option>
-                    <option>Within 10 km</option>
-                    <option>Within 20 km</option>
-                    <option>Same City</option>
+                    <option {{ request('location') == '' || !request('location') ? 'selected' : '' }}>Any Location</option>
+                    <option {{ request('location') == 'Within 5 km' ? 'selected' : '' }}>Within 5 km</option>
+                    <option {{ request('location') == 'Within 10 km' ? 'selected' : '' }}>Within 10 km</option>
+                    <option {{ request('location') == 'Within 20 km' ? 'selected' : '' }}>Within 20 km</option>
+                    <option {{ request('location') == 'Same City' ? 'selected' : '' }}>Same City</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <select class="form-select" id="sort-by">
-                    <option selected>Sort by</option>
-                    <option>Newest First</option>
-                    <option>Price: Low to High</option>
-                    <option>Price: High to Low</option>
-                    <option>Nearest First</option>
+                    <option {{ request('sort') == '' || !request('sort') ? 'selected' : '' }}>Sort by</option>
+                    <option {{ request('sort') == 'Newest First' ? 'selected' : '' }}>Newest First</option>
+                    <option {{ request('sort') == 'Price: Low to High' ? 'selected' : '' }}>Price: Low to High</option>
+                    <option {{ request('sort') == 'Price: High to Low' ? 'selected' : '' }}>Price: High to Low</option>
+                    <option {{ request('sort') == 'Nearest First' ? 'selected' : '' }}>Nearest First</option>
                 </select>
             </div>
         </div>
     </div>
     <!-- product -->
     <div class="container-fluid product ">
-        <div class="row">
-            @foreach($items as $item)
-            <div class=" col-md-3  col-6 mb-4 my-2">
-                <div class="product-card">
-
-                    <!-- Main Image -->
-                    <div class="main-image-container ">
-                        <img id="mainImage"
-                            src="{{ asset('/storage/' . ($item->item_pics && $item->item_pics->count() > 0 ? $item->item_pics->first()->image : 'default.png')) }}"
-                            alt="{{ $item->title }}" class="main-image">
-                    </div>
-
-                    <!-- Thumbnails -->
-                    
-                        
-                    
-                    <div class="thumbnail-container">
-                        @foreach ($item->item_pics as $pics)
-                        <img src="{{ asset('/storage/' . ($pics->image ?? 'default.png')) }}" alt="Front view"
-                            class="thumbnail active" onclick="changeImage(this)">
-                        @endforeach
-                        {{-- <img src="C:\Users\rajat\OneDrive\Pictures\Screenshots\Screenshot (1).png" alt="Side view"
-                            class="thumbnail" onclick="changeImage(this)">
-                        <img src="C:\Users\rajat\OneDrive\Pictures\Screenshots\Screenshot 2025-04-14 183901.png"
-                            alt="Back view" class="thumbnail" onclick="changeImage(this)"> --}}
-                    </div>
-                    
-                    <div class="product-info">
-                        <h3 class="product-title mb-2 text-truncate">{{ $item->title }}</h3>
-                        <p class="product-description mb-2" style="word-break: break-word; white-space: normal;">
-                            Quick/Comfy/Accurate/Plug&nbsp;and&nbsp;Play
-                        </p>
-
-                        <div class="price-section d-flex flex-wrap align-items-baseline gap-2 mb-2">
-                            <span class="current-price fw-bold">Price: {{ $item->points_required }} Coin</span>
-                            <!-- <span class="original-price text-muted">M.R.P. Price: 1,700.00</span> -->
-                        </div>
-
-                        <div class="seller-info small text-muted">
-                            <a class="text-decoration-none text-info fst-italic fw-bold" href="#"><img src="@if ($item->user->profile_image != NULL)
-                                    {{ asset('/storage/'.$item->user->profile_image); }}
-                                @else
-                                    {{ asset('/images/GreenBird.png'); }}
-                                @endif" alt="Profile" class="rounded-circle me-1" width="24"
-                                height="24">Sold by: {{ $item->user->name }}</a>
-                            
-                        </div>
-                        <a class="btn btn-info text-center text-decoration-none text-light"
-                            href="{{ route('product',$item->id) }}">Watch more</a>
-                    </div>
-                </div>
-            </div>
-            @endforeach
+        <div id="product-list">
+            @include('partials.product_list')
         </div>
     </div>
 
-{{ $items->links() }}
+    <div id="pagination">
+        {{ $items->links() }}
+    </div>
     <!-- Footer -->
     <footer class="bg-dark text-white pt-4">
         <div class="container text-center text-md-start">
@@ -444,6 +427,72 @@
 
     <script src="{{  asset('js/index.js') }}"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryFilter = document.getElementById('category-filter');
+            const conditionFilter = document.getElementById('condition-filter');
+            const locationFilter = document.getElementById('location-filter');
+            const sortBy = document.getElementById('sort-by');
+
+            function updateFilters() {
+                const params = new URLSearchParams();
+                params.set('category', categoryFilter.value);
+                params.set('condition', conditionFilter.value);
+                params.set('location', locationFilter.value);
+                params.set('sort', sortBy.value);
+
+                fetch('{{ route("home") }}?' + params.toString(), {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('product-list').innerHTML = data.html;
+                    document.getElementById('pagination').innerHTML = data.pagination;
+                    // Update URL without reloading
+                    window.history.pushState({}, '', '{{ route("home") }}?' + params.toString());
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            categoryFilter.addEventListener('change', updateFilters);
+            conditionFilter.addEventListener('change', updateFilters);
+            locationFilter.addEventListener('change', updateFilters);
+            sortBy.addEventListener('change', updateFilters);
+
+            // Handle pagination clicks
+            document.getElementById('pagination').addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const url = new URL(e.target.href);
+                    const params = url.searchParams;
+                    // Add current filter values
+                    params.set('category', categoryFilter.value);
+                    params.set('condition', conditionFilter.value);
+                    params.set('location', locationFilter.value);
+                    params.set('sort', sortBy.value);
+
+                    fetch('{{ route("home") }}?' + params.toString(), {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('product-list').innerHTML = data.html;
+                        document.getElementById('pagination').innerHTML = data.pagination;
+                        window.history.pushState({}, '', '{{ route("home") }}?' + params.toString());
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            });
+        });
+    </script>
 
 </body>
 

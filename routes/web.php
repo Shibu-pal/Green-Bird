@@ -21,6 +21,8 @@ Route::controller(HomeController::class)->group(function () {
         Route::view('/new-password','new_password')->name('new_password');
         Route::post('/forget-otp-validate','to_pass')->name('forget_otp_validate');
         Route::post('/set-password', 'set_password')->name('set_password');
+        Route::get('/auth/redirection/{provider}', 'redirect')->name('auth.redirect');
+        Route::get('/auth/{provider}/callback', 'callback')->name('auth.callback');
     });
     
 });

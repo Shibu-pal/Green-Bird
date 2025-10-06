@@ -9,18 +9,61 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
+use Laravel\Socialite\Facades\Socialite;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $id = Auth::check()?Auth::id():null;
         // $id = null;
-        $items = Item::with(['item_pics','user'])->where([
+        $query = Item::with(['item_pics','user'])->where([
             ['status', '=', 'Available'],
             ['user_id', '<>', $id]
-        ])->paginate(20);
+        ]);
+
+        // Apply filters
+        if ($request->has('category') && $request->category != 'All Categories') {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->has('condition') && $request->condition != 'Any Condition') {
+            $query->where('condition', $request->condition);
+        }
+
+        // For location, since options are distances, skip for now
+        // if ($request->has('location') && $request->location != 'Any Location') {
+        //     // Implement distance logic if possible
+        // }
+
+        // Apply sorting
+        if ($request->has('sort') && $request->sort != 'Sort by') {
+            switch ($request->sort) {
+                case 'Newest First':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                case 'Price: Low to High':
+                    $query->orderBy('points_required', 'asc');
+                    break;
+                case 'Price: High to Low':
+                    $query->orderBy('points_required', 'desc');
+                    break;
+                // Nearest First would require location logic
+            }
+        } else {
+            $query->orderBy('created_at', 'desc'); // Default to newest
+        }
+
+        $items = $query->paginate(20);
+
+        if ($request->ajax()) {
+            $html = view('partials.product_list', compact('items'))->render();
+            $pagination = $items->links()->toHtml();
+            return response()->json(['html' => $html, 'pagination' => $pagination]);
+        }
+
         // dd($items);
         // return $items;
         return view('home', compact('items'));
@@ -180,4 +223,58 @@ class HomeController extends Controller
             'success' => 'Logged out successfully'
         ]);
     }
+
+    public function redirect($provider)
+    {
+        if(!in_array($provider, ['google', 'facebook', 'github'])){
+            return redirect()->route('login')->with('message', 'Invalid provider');
+        }
+        // dd($provider);
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function callback($provider)
+    {
+        if(!in_array($provider, ['google', 'facebook', 'github'])){
+            return redirect()->route('login')->with('message', 'Invalid provider');
+        }
+        try {
+            $socialUser = Socialite::driver($provider)->stateless()->user();
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with('message', 'Authentication failed');
+        }
+
+        $user = User::where('email', $socialUser->getEmail())->first();
+
+        if ($user) {
+            Auth::login($user);
+            return redirect()->route('home')->with('success', 'Welcome back, ' . $user->name);
+        } else {
+            // Download and store profile image locally
+            $profileImagePath = null;
+            $avatarUrl = $socialUser->getAvatar();
+            if ($avatarUrl) {
+                try {
+                    $imageContent = Http::get($avatarUrl)->body();
+                    $filename = 'social_' . uniqid() . '.jpg'; // Assuming jpg, but could check content-type
+                    Storage::disk('public')->put('image/' . $filename, $imageContent);
+                    $profileImagePath = 'image/' . $filename;
+                } catch (\Exception $e) {
+                    // If download fails, leave as null
+                    $profileImagePath = null;
+                }
+            }
+
+            $newUser = User::create([
+                'name' => $socialUser->getName() ?? $socialUser->getNickname(),
+                'email' => $socialUser->getEmail(),
+                'profile_image' => $profileImagePath,
+                'email_verified_at' => now(),
+                'password' => bcrypt(uniqid()), // Random password
+            ]);
+            Auth::login($newUser);
+            return redirect()->route('home')->with('success', 'Account created successfully. Welcome, ' . $newUser->name);
+        }
+    }
 }
+
